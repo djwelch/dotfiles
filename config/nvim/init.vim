@@ -290,6 +290,36 @@ imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 
 " }}}
+" Sessions {{{
+
+fu! NewSess()
+  execute 'mksession! ' . getcwd() . '/.session.vim'
+endfunction
+
+fu! SaveSess()
+if filereadable(getcwd() . '/.session.vim')
+    execute 'mksession! ' . getcwd() . '/.session.vim'
+endif
+endfunction
+
+fu! RestoreSess()
+if filereadable(getcwd() . '/.session.vim')
+    execute 'so ' . getcwd() . '/.session.vim'
+    if bufexists(1)
+        for l in range(1, bufnr('$'))
+            if bufwinnr(l) == -1
+                exec 'sbuffer ' . l
+            endif
+        endfor
+    endif
+endif
+endfunction
+
+nnoremap <leader>ss :call NewSess()<CR>
+autocmd VimLeave * call SaveSess()
+autocmd VimEnter * nested call RestoreSess()
+
+" }}}
 call plug#end()
 
 set undofile undodir="~/.local/share/nvim/undo"
