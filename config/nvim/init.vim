@@ -1,3 +1,5 @@
+" let $NVIM_COC_LOG_LEVEL = 'debug'
+
 if (!exists('g:vscode'))
 " General {{{
 set hidden
@@ -186,7 +188,8 @@ let g:coc_global_extensions = [
       \ 'coc-eslint',
       \ 'coc-pairs',
       \ 'coc-prettier',
-      \ 'coc-diagnostic'
+      \ 'coc-diagnostic',
+      \ 'coc-jest'
       \ ]
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -201,7 +204,8 @@ nmap ]g <Plug>(coc-git-nextchunk)
 nmap gs <Plug>(coc-git-chunkinfo)
 nmap gu :CocCommand git.chunkUndo<cr>
 
-"remap keys for gotos
+" Code nagivation {{{
+" remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -242,8 +246,8 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
-
-"tab completion
+" }}}
+" Tab completion {{{
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -254,42 +258,38 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+" }}}
+" Jest {{{
+" Run jest for current project
+command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
+
+" Run jest for current file
+command! -nargs=0 JestCurrent :call  CocAction('runCommand', 'jest.fileTest', ['%'])
+
+" Run jest for current test
+nnoremap <leader>te :call CocAction('runCommand', 'jest.singleTest')<CR>
 
 " }}}
-" ctrlspace {{{
-Plug 'vim-ctrlspace/vim-ctrlspace'
-
-if has('win32')
-    let s:vimfiles = '~/vimfiles'
-    let s:os   = 'windows'
-else
-    let s:vimfiles = '~/.vim'
-    if has('mac') || has('gui_macvim')
-        let s:os = 'darwin'
-    else
-    " elseif has('gui_gtk2') || has('gui_gtk3')
-        let s:os = 'linux'
-    endif
-endif
-
-let g:CtrlSpaceFileEngine = s:vimfiles . '/plugged/vim-ctrlspace' . '/bin/file_engine_' . s:os . '_amd64'
-
-let g:CtrlSpaceSetDefaultMapping = 0
-let g:CtrlSpaceDefaultMappingKey = "<Tab>"
-let g:CtrlSpaceSaveWorkspaceOnExit = 1
-let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
-let g:CtrlSpaceLoadLastWorkspaceOnStart = 0
-let g:CtrlSpaceIgnoredFiles = '\v(tmp|temp|work|vendors)[\/]'
-if executable("ag")
-    let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
-endif
-
-nnoremap <silent><Tab> :CtrlSpace<CR>
-nnoremap <silent><leader>o :CtrlSpace O<CR>
-
 " }}}
 " Files {{{
 Plug 'tpope/vim-eunuch'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
+
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 
 " }}}
 call plug#end()

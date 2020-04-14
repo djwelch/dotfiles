@@ -1,6 +1,6 @@
 {
   "suggest.enablePreview": true,
-  "codeLens.enable": false,
+  "codeLens.enable": true,
   "git.addedSign.text": "┃",
   "git.removedSign.text": "┃",
   "git.changedSign.text": "┃",
@@ -24,5 +24,6 @@
   "eslint.enable": true,
   "diagnostic-languageserver.filetypes": {
     "sh": "shellcheck"
-  }
+  },
+  "jest.terminalPosition": "bottom"
 }
