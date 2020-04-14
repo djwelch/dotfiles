@@ -283,9 +283,7 @@ command! -bang -nargs=* Ag
   \                 <bang>0)
 
 " Mapping selecting mappings
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
+nmap <C-p> :Ag<CR>
 
 " Insert mode completion
 imap <c-x><c-f> <plug>(fzf-complete-path)
