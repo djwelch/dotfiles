@@ -165,7 +165,8 @@ let g:coc_global_extensions = [
       \ 'coc-pairs',
       \ 'coc-prettier',
       \ 'coc-diagnostic',
-      \ 'coc-jest'
+      \ 'coc-jest',
+      \ 'coc-yaml'
       \ ]
 
 autocmd CursorHold * silent call CocActionAsync('highlight')

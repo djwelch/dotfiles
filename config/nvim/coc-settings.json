@@ -25,5 +25,6 @@
   "diagnostic-languageserver.filetypes": {
     "sh": "shellcheck"
   },
-  "jest.terminalPosition": "bottom"
+  "jest.terminalPosition": "bottom",
+  "yaml.format.enable": true
 }
