@@ -96,4 +96,18 @@ function autocmd.bind_cursor_hold(func)
   autocmd.bind("CursorHold *", func)
 end
 
+--- Register a callback for a window is about to be closed with :quit/:wq/:qall
+--
+-- @tparam function func The function to call when the autocommand fires
+function autocmd.bind_quit_pre(func)
+  autocmd.bind("QuitPre *", func)
+end
+
+--- Register a callback for after window has been closed
+--
+-- @tparam function func The function to call when the autocommand fires
+function autocmd.bind_win_closed(func)
+  autocmd.bind("WinClosed *", func)
+end
+
 return autocmd

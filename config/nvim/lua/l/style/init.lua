@@ -6,6 +6,8 @@ local layer = {}
 local plug = require("c.plug")
 local autocmd = require("c.autocmd")
 
+local terminal = require("l.style.terminal")
+
 -- The startup buffer doesn't seem to pick up on vim.o changes >.<
 local function set_default_win_opt(name, value)
   vim.o[name] = value
@@ -109,6 +111,8 @@ function layer.init_config()
     vim.cmd("hi IndentGuidesEven ctermbg=0 guibg=#2E3032")
     vim.cmd("hi IndentGuidesOdd ctermbg=0 guibg=#2E3032")
   end)
+  
+  terminal.init_config()
 end
 
 return layer

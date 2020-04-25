@@ -12,7 +12,7 @@ local layer = {}
 function layer.register_plugins()
   plug.add_plugin("neovim/nvim-lsp")
   plug.add_plugin("haorenW1025/completion-nvim")
-  plug.add_plugin("haorenW1025/diagnostic-nvim")
+  -- plug.add_plugin("haorenW1025/diagnostic-nvim")
 end
 
 local function user_stop_all_clients()
@@ -90,9 +90,10 @@ function layer.init_config()
   keybind.bind_command(edit_mode.NORMAL, "<leader>lr", ":lua vim.lsp.buf.references()<CR>", { noremap = true }, "Find references")
   keybind.bind_command(edit_mode.NORMAL, "<leader>lR", ":lua vim.lsp.buf.rename()<CR>", { noremap = true }, "Rename")
   keybind.bind_command(edit_mode.NORMAL, "<leader>ld", ":lua vim.lsp.buf.document_symbol()<CR>", { noremap = true }, "Document symbol list")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>le", ":OpenDiagnostic<CR>:lw<CR>", { noremap = true }, "Show errors/diagnostics")
-  keybind.bind_command(edit_mode.NORMAL, "]d", ":NextDiagnostic<CR>", { noremap = true }, "Show errors/diagnostics")
-  keybind.bind_command(edit_mode.NORMAL, "[d", ":PrevDiagnostic<CR>", { noremap = true }, "Show errors/diagnostics")
+
+  -- keybind.bind_command(edit_mode.NORMAL, "<leader>le", ":OpenDiagnostic<CR>:lw<CR>", { noremap = true }, "Show errors/diagnostics")
+  -- keybind.bind_command(edit_mode.NORMAL, "]d", ":NextDiagnostic<CR>", { noremap = true }, "Show errors/diagnostics")
+  -- keybind.bind_command(edit_mode.NORMAL, "[d", ":PrevDiagnostic<CR>", { noremap = true }, "Show errors/diagnostics")
 
   keybind.set_group_name("<leader>j", "Jump")
   keybind.bind_command(edit_mode.NORMAL, "<leader>jd", ":lua vim.lsp.buf.declaration()<CR>", { noremap = true }, "Jump to declaration")
@@ -135,12 +136,12 @@ layer.filetype_servers = {}
 -- @param config The config for the server (in the format expected by `nvim_lsp`)
 function layer.register_server(server, config)
   local completion = require("completion") -- From completion-nvim
-  local diagnostic = require("diagnostic") -- From diagnostic-nvim
+  -- local diagnostic = require("diagnostic") -- From diagnostic-nvim
 
   config = config or {}
   config.on_attach = function(...)
     completion.on_attach(...)
-    diagnostic.on_attach(...)
+    -- diagnostic.on_attach(...)
   end
   config = vim.tbl_extend("keep", config, server.document_config.default_config)
 

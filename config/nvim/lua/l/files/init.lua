@@ -20,6 +20,10 @@ function layer.init_config()
   keybind.bind_command(edit_mode.NORMAL, "<leader>fg", ":GitFiles<CR>", { noremap = true }, "Find git files")
   keybind.bind_command(edit_mode.NORMAL, "<leader>fc", ":cd %:p:h<CR>", { noremap = true }, "cd")
 
+  keybind.set_group_name("<leader>g", "Git")
+  keybind.bind_command(edit_mode.NORMAL, "<leader>gs", ":Git<CR>", { noremap = true }, "Git status")
+  keybind.bind_command(edit_mode.NORMAL, "<leader>gp", ":Git push<CR>", { noremap = true }, "Git push")
+
 end
 
 return layer
