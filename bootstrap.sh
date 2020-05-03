@@ -19,7 +19,8 @@ rm -rf ~/tmp/win32yank-x64
 sudo apt install zsh 
 chsh -s $(which zsh)
 touch ~/.zshrc
-mkdir .config/zsh -p
+curl -L --create-dirs -o ~/.config/zsh/history.zsh \
+  https://raw.githubusercontent.com/djwelch/dotfiles/master/config/zsh/history.zsh
 # }}}
 
 # fzf {{{
