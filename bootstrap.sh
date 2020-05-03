@@ -1,6 +1,15 @@
 # /bin/sh
 
 mkdir -p ~/.local/{applications,bin}
+ssh-keygen -f ~/.ssh/github_id_rsa
+sudo apt install unzip
+
+# win32yank {{{
+curl -L --create-dirs -o ~/tmp/win32yank-x64.zip \
+  https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
+unzip ~/tmp/win32yank-x64.zip -d ~/tmp/win32yank-x64
+cp ~/tmp/win32yank-x64/win32yank.exe /mnt/c/Users/djwel/Bin
+# }}}
 
 # zsh {{{
 sudo apt install zsh 
