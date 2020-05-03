@@ -7,8 +7,6 @@ alias oldvim="vim"
 alias vimdiff='nvim -d'
 export EDITOR=nvim
 
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.config/zsh/history.zsh ] && source ~/.config/zsh/history.zsh
 
 fpath+=$HOME/.config/zsh/pure

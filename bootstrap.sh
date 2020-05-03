@@ -63,7 +63,7 @@ git clone https://github.com/sindresorhus/pure.git "$HOME/.config/zsh/pure"
 
 # fzf {{{
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
+~/.fzf/install --update-rc --key-bindings --completion
 # }}}
 
 # nvim {{{
