@@ -5,6 +5,7 @@ ssh-keygen -f ~/.ssh/github_id_rsa
 sudo apt install unzip
 
 # win32yank {{{
+# requires https://www.microsoft.com/en-gb/download/confirmation.aspx?id=48145
 curl -L --create-dirs -o ~/tmp/win32yank-x64.zip \
   https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
 unzip ~/tmp/win32yank-x64.zip -d ~/tmp/win32yank-x64
