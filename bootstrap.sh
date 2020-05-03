@@ -2,6 +2,8 @@
 
 mkdir -p ~/.local/{applications,bin}
 ssh-keygen -f ~/.ssh/github_id_rsa
+cp ./ssh_config ~/.ssh/config
+chmod 0600 ~/.ssh/config
 sudo apt install unzip
 
 # fonts {{{
