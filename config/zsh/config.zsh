@@ -19,3 +19,5 @@ export PATH
 export PURE_PROMPT_SYMBOL=🐼
 autoload -U promptinit; promptinit
 prompt pure
+
+[ -f ~/.config/zsh/motd.zsh ] && source ~/.config/zsh/motd.zsh

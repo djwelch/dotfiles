@@ -1,10 +1,35 @@
 # /bin/sh
 
+sudo apt install unzip build-essential
 mkdir -p ~/.local/{applications,bin}
 ssh-keygen -f ~/.ssh/github_id_rsa
-cp ./ssh_config ~/.ssh/config
-chmod 0600 ~/.ssh/config
-sudo apt install unzip
+ssh-keygen -f ~/.ssh/gitlab_id_rsa
+
+# figlet {{{
+curl -L --create-dirs -o ~/tmp/figlet.tar.gz \
+  ftp://ftp.figlet.org/pub/figlet/program/unix/figlet-2.2.5.tar.gz
+tar -xvf ~/tmp/figlet.tar.gz -C ~/tmp/
+pushd ~/tmp/figlet-2.2.5
+make
+cp {figlet,figlist,showfigfonts} ~/.local/bin/.
+popd
+curl -L --create-dirs -o ~/.local/share/figlet/puffy.flf \
+  http://www.figlet.org/fonts/puffy.flf
+curl -L --create-dirs -o ~/.local/share/figlet/Small.flf \
+  https://raw.githubusercontent.com/xero/figlet-fonts/master/Small.flf
+curl -L --create-dirs -o ~/.local/share/figlet/twopoint.flf \
+  https://raw.githubusercontent.com/xero/figlet-fonts/master/twopoint.flf
+curl -L --create-dirs -o ~/.local/share/figlet/Standard.flf \
+  https://raw.githubusercontent.com/xero/figlet-fonts/master/Standard.flf
+# }}}
+
+# lolcat {{{
+git clone https://github.com/dosentmatter/lolcat.git ~/tmp/lolcat
+pushd ~/tmp/lolcat
+make lolcat
+cp lolcat ~/.local/bin/.
+popd
+# }}}
 
 # fonts {{{
 curl -L --create-dirs -o ~/tmp/FiraCode.zip \
@@ -29,7 +54,8 @@ rm -rf ~/tmp/win32yank-x64
 # zsh {{{
 sudo apt install zsh 
 chsh -s $(which zsh)
-touch ~/.zshrc
+[ ! -f ~/.zshrc ] && echo '[ -f ~/.config/zsh/config.zsh ] && source ~/.config/zsh/config.zsh' > ~/.zshrc
+
 curl -L --create-dirs -o ~/.config/zsh/history.zsh \
   https://raw.githubusercontent.com/djwelch/dotfiles/master/config/zsh/history.zsh
 git clone https://github.com/sindresorhus/pure.git "$HOME/.config/zsh/pure"
