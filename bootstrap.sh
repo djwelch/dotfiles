@@ -4,6 +4,15 @@ mkdir -p ~/.local/{applications,bin}
 ssh-keygen -f ~/.ssh/github_id_rsa
 sudo apt install unzip
 
+# fonts {{{
+curl -L --create-dirs -o ~/tmp/FiraCode.zip \
+  https://github.com/tonsky/FiraCode/releases/download/3.1/FiraCode_3.1.zip
+unzip ~/tmp/FiraCode.zip -d ~/tmp/FiraCode
+mkdir /mnt/c/Users/djwel/Fonts
+find ~/tmp/FiraCode -iname "*.ttf" | grep /ttf/ | xargs -I{} cp {} /mnt/c/Users/djwel/Fonts/.
+rm -rf ~/tmp/FiraCode
+# }}}
+
 # win32yank {{{
 # requires https://www.microsoft.com/en-gb/download/confirmation.aspx?id=48145
 curl -L --create-dirs -o ~/tmp/win32yank-x64.zip \
@@ -21,6 +30,7 @@ chsh -s $(which zsh)
 touch ~/.zshrc
 curl -L --create-dirs -o ~/.config/zsh/history.zsh \
   https://raw.githubusercontent.com/djwelch/dotfiles/master/config/zsh/history.zsh
+git clone https://github.com/sindresorhus/pure.git "$HOME/.config/zsh/pure"
 # }}}
 
 # fzf {{{
