@@ -1,2 +1,2 @@
 # /bin/sh
-ls config/ | xargs -I {dir} -n 1 rsync -uia ~/.config/{dir} ./config
+ls config/ | xargs -I {dir} -n 1 rsync --exclude 'pure' -uia ~/.config/{dir} ./config
