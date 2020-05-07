@@ -15,7 +15,7 @@ path+=("$HOME/.rbenv/bin")
 export PATH
 export PKG_CONFIG_PATH=~/.local/lib/pkgconfig
 
-
+export BROWSER='/mnt/c/Program\ Files/Mozilla\ Firefox/firefox.exe'
 # export PURE_PROMPT_SYMBOL=🐻
 export PURE_PROMPT_SYMBOL=🐼
 autoload -U promptinit; promptinit

@@ -1,0 +1,54 @@
+#a theme inspired by the GTK Adapta-Maia theme.
+#works really well on a stock Manjaro.
+#
+#for "info" field, both "color35" and "color36" match well.
+
+color listfocus         color192 default
+color listfocus_unread  color155 default
+color info              color35 default reverse 
+
+# highlights
+highlight article "https?://[^ ]+" 		color117 default
+highlight article "^(Title):.*$"		color117 default
+highlight article "\\[image\\ [0-9]+\\]" 	color117 default
+
+
+auto-reload yes
+reload-time 120
+show-read-articles no
+show-read-feeds no
+
+# browser "/usr/bin/w3m %u"
+# macro f set browser "/mnt/c/Program\ Files/Mozilla\ Firefox/firefox.exe %u"; open-in-browser ; set browser "/usr/bin/w3m %u"
+
+# Disable keymap hints on the bottom of screen.
+show-keymap-hint yes
+
+notify-always yes
+notify-program "toast"
+
+# Set format string that is used for formatting notifications.
+notify-format "%n unread articles"
+
+# Format of the titles.
+feedlist-title-format "%N: (%u) Feeds"
+articlelist-title-format "%N: (%u) %T [%U]"
+searchresult-title-format "%N: (%u) Search"
+filebrowser-title-format "%N: %f %?O?Open File&Save File?"
+help-title-format "%N: Help"
+selecttag-title-format "%N: Select Tag"
+selectfilter-title-format "%N: Select Filter"
+itemview-title-format "%N: %T"
+urlview-title-format "%N: URLs"
+dialogs-title-format "%N: Dialogs"
+
+#Keys
+bind-key j down
+bind-key k up
+bind-key j next articlelist
+bind-key k prev articlelist
+bind-key J next-feed articlelist
+bind-key K prev-feed articlelist
+bind-key G end
+bind-key g home
+

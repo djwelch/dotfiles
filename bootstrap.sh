@@ -4,7 +4,7 @@ sudo apt install unzip build-essential \
   libcurl4-gnutls-dev libjson-c-dev libxml2-utils xsltproc docbook-xml bc \
   libxml++2.6-dev curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential \
   libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev \
-  gettext
+  gettext w3m
 mkdir -p ~/.local/{applications,bin}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
