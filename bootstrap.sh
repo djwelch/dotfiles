@@ -1,5 +1,10 @@
-# /bin/sh
-sudo apt install unzip build-essential
+# /bin/sh 
+sudo apt install unzip build-essential \
+  libncursesw5-dev ncurses-term libxml2-dev libsqlite3-dev \
+  libcurl4-gnutls-dev libjson-c-dev libxml2-utils xsltproc docbook-xml bc \
+  libxml++2.6-dev curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential \
+  libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev \
+  msgfmt
 mkdir -p ~/.local/{applications,bin}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
@@ -9,10 +14,11 @@ if [ ! -f ~/.local/bin/figlet ]; then
   curl -L --create-dirs -o ~/tmp/figlet.tar.gz \
     ftp://ftp.figlet.org/pub/figlet/program/unix/figlet-2.2.5.tar.gz
   tar -xvf ~/tmp/figlet.tar.gz -C ~/tmp/
-  pushd ~/tmp/figlet-2.2.5
+  oldpath=`pwd`
+  cd ~/tmp/figlet-2.2.5
   make
   cp {figlet,figlist,showfigfonts} ~/.local/bin/.
-  popd
+  cd oldpath
   curl -L --create-dirs -o ~/.local/share/figlet/puffy.flf \
     http://www.figlet.org/fonts/puffy.flf
   curl -L --create-dirs -o ~/.local/share/figlet/Small.flf \
@@ -29,10 +35,11 @@ rm -rf ~/tmp/figlet-2.2.5
 # lolcat {{{
 if [ ! -f ~/.local/bin/lolcat ]; then
   git clone https://github.com/dosentmatter/lolcat.git ~/tmp/lolcat
-  pushd ~/tmp/lolcat
+  oldpath=`pwd`
+  cd ~/tmp/lolcat
   make lolcat
   cp lolcat ~/.local/bin/.
-  popd
+  cd oldpath
 fi
 rm -rf ~/tmp/lolcat
 # }}}
@@ -88,4 +95,51 @@ if [ ! -f ~/.local/bin/nvim ]; then
   ln -s -r ~/.local/applications/nvim.appimage ~/.local/bin/nvim 
 fi
 # }}}
+
+
+# newsboat {{{
+if [ ! -f ~/.local/lib/libstfl.so ]; then
+  curl -L --create-dirs -o ~/tmp/stfl.tar.gz \
+    http://www.clifford.at/stfl/stfl-0.24.tar.gz
+  tar -xvf ~/tmp/stfl.tar.gz -C ~/tmp/
+  oldpath=`pwd`
+  cd ~/tmp/stfl-0.24
+  DESTDIR="~/" prefix=".local" make
+  DESTDIR="~/" prefix=".local" make install
+  cd oldpath
+  echo Does not install the correct pc config file
+fi
+# }}}
+rm -f ~/tmp/stfl.tar.gz
+rm -rf ~/tmp/stfl-0.24
+
+# ruby {{{
+if [ ! -d ~/.rbenv ]; then
+  curl -sL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash 
+  # rbenv install 2.5.1
+  # rbenv global 2.5.1
+fi
+# }}}
+
+# rust {{{
+if [ ! -d ~/.cargo/bin ]; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+fi
+# }}}
+
+# newsboat {{{
+if [ ! -f ~/.local/bin/newsboat ]; then
+  gem install asciidoctor
+  curl -L --create-dirs -o ~/tmp/newsboat.tar.xz \
+    https://github.com/newsboat/newsboat/archive/r2.19.tar.gz
+  tar -xvf ~/tmp/newsboat.tar.xz -C ~/tmp/
+  oldpath=`pwd`
+  cd ~/tmp/newsboat-r2.19
+  prefix="~/.local" make
+  prefix="~/.local" make install
+  cd oldpath
+fi
+# }}}
+rm -f ~/tmp/newsboat.tar.xz 
+# rm -rf ~/tmp/newsboat-2.18
 
