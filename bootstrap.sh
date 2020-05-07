@@ -4,7 +4,7 @@ sudo apt install unzip build-essential \
   libcurl4-gnutls-dev libjson-c-dev libxml2-utils xsltproc docbook-xml bc \
   libxml++2.6-dev curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential \
   libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev \
-  msgfmt
+  gettext
 mkdir -p ~/.local/{applications,bin}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
@@ -97,7 +97,7 @@ fi
 # }}}
 
 
-# newsboat {{{
+# stfl {{{
 if [ ! -f ~/.local/lib/libstfl.so ]; then
   curl -L --create-dirs -o ~/tmp/stfl.tar.gz \
     http://www.clifford.at/stfl/stfl-0.24.tar.gz
@@ -141,5 +141,5 @@ if [ ! -f ~/.local/bin/newsboat ]; then
 fi
 # }}}
 rm -f ~/tmp/newsboat.tar.xz 
-# rm -rf ~/tmp/newsboat-2.18
+rm -rf ~/tmp/newsboat-2.18
 
