@@ -14,6 +14,8 @@ path+=("$HOME/.local/bin")
 path+=("$HOME/.rbenv/bin")
 export PATH
 export PKG_CONFIG_PATH=~/.local/lib/pkgconfig
+ 
+alias newspaste="win32yank.exe -o >> ~/.config/newsboat/urls && vim + ~/.config/newsboat/urls"
 
 export BROWSER='/mnt/c/Program\ Files/Mozilla\ Firefox/firefox.exe'
 # export PURE_PROMPT_SYMBOL=🐻
