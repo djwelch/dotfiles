@@ -9,9 +9,11 @@ export EDITOR=nvim
 
 [ -f ~/.config/zsh/history.zsh ] && source ~/.config/zsh/history.zsh
 
+export PYENV_ROOT="$HOME/.pyenv"
 fpath+=$HOME/.config/zsh/pure
 path+=("$HOME/.local/bin")
 path+=("$HOME/.rbenv/bin")
+path+=("$PYENV_ROOT/bin")
 export PATH
 export PKG_CONFIG_PATH=~/.local/lib/pkgconfig
  
@@ -25,7 +27,6 @@ prompt pure
 
 [ -f ~/.config/zsh/motd.zsh ] && source ~/.config/zsh/motd.zsh
 
-# rbenv
 eval "$(rbenv init -)"
-# rust
+eval "$(pyenv init -)"
 source $HOME/.cargo/env

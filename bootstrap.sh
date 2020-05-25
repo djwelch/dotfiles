@@ -1,10 +1,9 @@
 # /bin/sh 
-sudo apt install unzip build-essential \
-  libncursesw5-dev ncurses-term libxml2-dev libsqlite3-dev \
-  libcurl4-gnutls-dev libjson-c-dev libxml2-utils xsltproc docbook-xml bc \
-  libxml++2.6-dev curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential \
-  libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev \
-  gettext w3m
+sudo apt-get update
+sudo apt-get install --no-install-recommends make build-essential libssl-dev zlib1g-dev libbz2-dev \
+   libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev \
+   libxmlsec1-dev libffi-dev liblzma-dev unzip
+
 mkdir -p ~/.local/{applications,bin}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
@@ -127,19 +126,31 @@ if [ ! -d ~/.cargo/bin ]; then
 fi
 # }}}
 
-# newsboat {{{
-if [ ! -f ~/.local/bin/newsboat ]; then
-  gem install asciidoctor
-  curl -L --create-dirs -o ~/tmp/newsboat.tar.xz \
-    https://github.com/newsboat/newsboat/archive/r2.19.tar.gz
-  tar -xvf ~/tmp/newsboat.tar.xz -C ~/tmp/
-  oldpath=`pwd`
-  cd ~/tmp/newsboat-r2.19
-  prefix="~/.local" make
-  prefix="~/.local" make install
-  cd oldpath
+# # newsboat {{{
+# if [ ! -f ~/.local/bin/newsboat ]; then
+#   gem install asciidoctor
+#   curl -L --create-dirs -o ~/tmp/newsboat.tar.xz \
+#     https://github.com/newsboat/newsboat/archive/r2.19.tar.gz
+#   tar -xvf ~/tmp/newsboat.tar.xz -C ~/tmp/
+#   oldpath=`pwd`
+#   cd ~/tmp/newsboat-r2.19
+#   prefix="~/.local" make
+#   prefix="~/.local" make install
+#   cd oldpath
+# fi
+# # }}}
+# rm -f ~/tmp/newsboat.tar.xz 
+# rm -rf ~/tmp/newsboat-2.18
+
+# youtube-dl {{{
+if [ ! -f ~/.local/bin/youtube-dl ]; then
+  curl -L https://yt-dl.org/downloads/latest/youtube-dl -o ~/.local/bin/youtube-dl
+  chmod a+rx ~/.local/bin/youtube-dl
 fi
 # }}}
-rm -f ~/tmp/newsboat.tar.xz 
-rm -rf ~/tmp/newsboat-2.18
 
+# pyenv {{{
+if [ ! -d ~/.pyenv ]; then
+  git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+fi
+# }}}
