@@ -165,6 +165,9 @@ fi
 # }}}
 
 # nvm {{{
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+if [ ! -d ~/.nvm ]; then
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+  sudo apt install --no-install-recommends yarn
+fi
 # }}}
 
