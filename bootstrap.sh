@@ -2,7 +2,7 @@
 sudo apt-get update
 sudo apt-get install --no-install-recommends make build-essential libssl-dev zlib1g-dev libbz2-dev \
    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev \
-   libxmlsec1-dev libffi-dev liblzma-dev unzip
+   libxmlsec1-dev libffi-dev liblzma-dev python-openssl unzip
 
 mkdir -p ~/.local/{applications,bin}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
@@ -154,3 +154,17 @@ if [ ! -d ~/.pyenv ]; then
   git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 fi
 # }}}
+
+# ffmpeg {{{
+if [ ! -f ~/.local/bin/ffmpeg ]; then
+  curl -L https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz -o ~/tmp/ffmpeg.tar.xz
+  tar -xvf ~/tmp/ffmpeg.tar.xz -C ~/tmp/
+  cp ~/tmp/ffmpeg-4.2.2-amd64-static/ffmpeg ~/.local/bin/ffmpeg
+  cp ~/tmp/ffmpeg-4.2.2-amd64-static/ffprobe ~/.local/bin/ffprobe
+fi
+# }}}
+
+# nvm {{{
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+# }}}
+
