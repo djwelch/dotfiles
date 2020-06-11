@@ -14,6 +14,8 @@ source /usr/share/fzf/completion.zsh
 
 # export PYENV_ROOT="$HOME/.pyenv"
 fpath+=$HOME/.config/zsh/pure
+fpath+=/usr/share/zsh/site-functions
+
 path+=("$HOME/.local/bin")
 path+=("$HOME/.rbenv/bin")
 path+=("$PYENV_ROOT/bin")
