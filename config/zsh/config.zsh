@@ -28,7 +28,8 @@ export PURE_PROMPT_SYMBOL=🐼
 autoload -U promptinit; promptinit
 prompt pure
 
-# [ -f ~/.config/zsh/motd.zsh ] && source ~/.config/zsh/motd.zsh
+
+[ -f ~/.config/zsh/motd.zsh ] && source ~/.config/zsh/motd.zsh
 
 # eval "$(rbenv init -)"
 # eval "$(pyenv init -)"
@@ -37,3 +38,5 @@ prompt pure
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
