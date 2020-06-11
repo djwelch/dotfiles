@@ -3,7 +3,7 @@ mkdir -p ~/.local/{applications,bin,opt}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
 
-sudo pacman -S xclip figlet
+sudo pacman -S xclip figlet blueberry
 yay figlet-fonts
 
 if [ ! -f ~/.local/bin/saml2aws ]; then
