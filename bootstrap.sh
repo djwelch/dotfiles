@@ -3,14 +3,14 @@ mkdir -p ~/.local/{applications,bin,opt}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
 
-sudo pacman -S xclip figlet blueberry zsh-completions
+sudo pacman -S xclip figlet blueberry zsh-completions xorg-xinput
 yay figlet-fonts
 
 if [ ! -f ~/.local/bin/saml2aws ]; then
-CURRENT_VERSION=2.26.1
-wget https://github.com/Versent/saml2aws/releases/download/v${CURRENT_VERSION}/saml2aws_${CURRENT_VERSION}_linux_amd64.tar.gz
-tar -xzvf saml2aws_${CURRENT_VERSION}_linux_amd64.tar.gz -C ~/.local/bin
-chmod u+x ~/.local/bin/saml2aws
+  CURRENT_VERSION=2.26.1
+  wget https://github.com/Versent/saml2aws/releases/download/v${CURRENT_VERSION}/saml2aws_${CURRENT_VERSION}_linux_amd64.tar.gz
+  tar -xzvf saml2aws_${CURRENT_VERSION}_linux_amd64.tar.gz -C ~/.local/bin
+  chmod u+x ~/.local/bin/saml2aws
 fi
 
 # lolcat {{{
