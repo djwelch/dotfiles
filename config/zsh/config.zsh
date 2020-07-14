@@ -9,11 +9,12 @@ export EDITOR=nvim
 
 path+=("$HOME/.local/bin")
 path+=("$HOME/.rbenv/bin")
-path+=("$PYENV_ROOT/bin")
 path+=("$HOME/.yarn/bin")
 path+=("$HOME/.config/yarn/global/node_modules/.bin")
 export PATH
 export PKG_CONFIG_PATH=~/.local/lib/pkgconfig
+
+eval "$(pyenv init -)"
 
 [ -f ~/.config/zsh/history.zsh ] && source ~/.config/zsh/history.zsh
 [ -f ~/.config/zsh/motd.zsh ] && source ~/.config/zsh/motd.zsh

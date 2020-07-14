@@ -3,8 +3,7 @@ mkdir -p ~/.local/{applications,bin,opt}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
 
-sudo pacman -S xclip figlet blueberry zsh-completions xorg-xinput
-yay figlet-fonts
+yay -S xclip figlet blueberry zsh-completions xorg-xinput pyenv pyenv-virtualenv figlet-fonts
 
 if [ ! -f ~/.local/bin/saml2aws ]; then
   CURRENT_VERSION=2.26.1
@@ -59,3 +58,4 @@ curl -L --create-dirs -o ~/tmp/jetbrains-toolbox-1.17.7018.tar.gz \
 tar -zxf ~/tmp/jetbrains-toolbox-1.17.7018.tar.gz -C ~/.local/opt
 ln -s -r ~/.local/opt/jetbrains-toolbox-1.17.7018/jetbrains-toolbox ~/.local/bin/jetbrains-toolbox
 fi
+
