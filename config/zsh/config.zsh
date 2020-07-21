@@ -8,11 +8,13 @@ alias vimdiff='nvim -d'
 export EDITOR=nvim
 
 path+=("$HOME/.local/bin")
+path+=("$HOME/.local/dotnet")
 path+=("$HOME/.rbenv/bin")
 path+=("$HOME/.yarn/bin")
 path+=("$HOME/.config/yarn/global/node_modules/.bin")
 export PATH
 export PKG_CONFIG_PATH=~/.local/lib/pkgconfig
+export DOTNET_ROOT=/home/david/.local/dotnet
 
 eval "$(pyenv init -)"
 
