@@ -3,14 +3,20 @@ mkdir -p ~/.local/{applications,bin,opt}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
 
-yay -S xclip figlet blueberry zsh-completions xorg-xinput pyenv pyenv-virtualenv figlet-fonts zlib lttng-ust fzf
+yay -S xclip figlet blueberry zsh-completions xorg-xinput pyenv pyenv-virtualenv figlet-fonts zlib lttng-ust fzf zsh unzip
 
-if [ ! -f ~/.local/bin/saml2aws ]; then
-  CURRENT_VERSION=2.26.1
-  wget https://github.com/Versent/saml2aws/releases/download/v${CURRENT_VERSION}/saml2aws_${CURRENT_VERSION}_linu_md64.tar.gz
-  tar -xzvf saml2aws_${CURRENT_VERSION}_linux_amd64.tar.gz -C ~/.local/bin
-  chmod u+x ~/.local/bin/saml2aws
+# win32yank {{{
+# requires https://www.microsoft.com/en-gb/download/confirmation.aspx?id=48145
+if [ ! -f ~/.local/bin/win32yank.exe ]; then
+  curl -L --create-dirs -o ~/tmp/win32yank-x64.zip \
+    https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
+  unzip ~/tmp/win32yank-x64.zip -d ~/tmp/win32yank-x64
+  cp ~/tmp/win32yank-x64/win32yank.exe ~/.local/bin/.
+  chmod a+x ~/.local/bin/win32yank.exe
 fi
+rm -f ~/tmp/win32yank-x64.zip
+rm -rf ~/tmp/win32yank-x64
+# }}}
 
 # lolcat {{{
 if [ ! -f ~/.local/bin/lolcat ]; then
@@ -19,13 +25,12 @@ if [ ! -f ~/.local/bin/lolcat ]; then
   cd ~/tmp/lolcat
   make lolcat
   cp lolcat ~/.local/bin/.
-  cd oldpath
+  cd $oldpath
 fi
 rm -rf ~/tmp/lolcat
 # }}}
 
 # zsh {{{
-sudo pacman -S zsh
 [ ! -f ~/.zshrc ] && echo '[ -f ~/.config/zsh/config.zsh ] && source ~/.config/zsh/config.zsh' > ~/.zshrc
 if [ ! -d ~/.config/zsh/pure ]; then
   git clone https://github.com/sindresorhus/pure.git ~/.config/zsh/pure
@@ -41,24 +46,24 @@ if [ ! -f ~/.local/bin/nvim ]; then
 fi
 # }}}
 
-# nvm {{{
-if [ ! -d ~/.nvm ]; then
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-  curl -o- -L https://yarnpkg.com/install.sh | bash
-fi
-# }}}
-
-if [ ! -f ~/.local/bin ]; then
-curl -L --create-dirs -o ~/tmp/jetbrains-toolbox-1.17.7018.tar.gz \
-  https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.17.7018.tar.gz
-tar -zxf ~/tmp/jetbrains-toolbox-1.17.7018.tar.gz -C ~/.local/opt
-ln -s -r ~/.local/opt/jetbrains-toolbox-1.17.7018/jetbrains-toolbox ~/.local/bin/jetbrains-toolbox
-fi
-
-if [ ! -d ~/.local/dotnet]; then
-  curl -L --create-dirs -o ~/tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh
-  chmod u+x ~/tmp/dotnet-install.sh
-  ~/tmp/dotnet-install.sh --install-dir ~/.local/dotnet -channel Current -version latest
-fi
+# # nvm {{{
+# if [ ! -d ~/.nvm ]; then
+#   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+#   curl -o- -L https://yarnpkg.com/install.sh | bash
+# fi
+# # }}}
+#
+# if [ ! -f ~/.local/bin ]; then
+# curl -L --create-dirs -o ~/tmp/jetbrains-toolbox-1.17.7018.tar.gz \
+#   https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.17.7018.tar.gz
+# tar -zxf ~/tmp/jetbrains-toolbox-1.17.7018.tar.gz -C ~/.local/opt
+# ln -s -r ~/.local/opt/jetbrains-toolbox-1.17.7018/jetbrains-toolbox ~/.local/bin/jetbrains-toolbox
+# fi
+# 
+# if [ ! -d ~/.local/dotnet]; then
+#   curl -L --create-dirs -o ~/tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh
+#   chmod u+x ~/tmp/dotnet-install.sh
+#   ~/tmp/dotnet-install.sh --install-dir ~/.local/dotnet -channel Current -version latest
+# fi
 
 

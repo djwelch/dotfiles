@@ -3,7 +3,7 @@ alias ls='ls --color=auto'
 
 alias vim="nvim"
 alias vi="nvim"
-alias oldvim="vim"
+alias oldvim="/usr/bin/vim"
 alias vimdiff='nvim -d'
 export EDITOR=nvim
 
