@@ -3,7 +3,8 @@ mkdir -p ~/.local/{applications,bin,opt}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
 
-yay -S xclip figlet blueberry zsh-completions xorg-xinput pyenv pyenv-virtualenv figlet-fonts zlib lttng-ust fzf zsh unzip
+yay -S xclip figlet blueberry zsh-completions xorg-xinput pyenv pyenv-virtualenv \
+	figlet-fonts zlib lttng-ust fzf zsh unzip rsync
 
 # win32yank {{{
 # requires https://www.microsoft.com/en-gb/download/confirmation.aspx?id=48145
