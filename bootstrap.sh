@@ -3,11 +3,11 @@ mkdir -p ~/.local/{applications,bin,opt}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
 
-yay -S xclip figlet blueberry zsh-completions xorg-xinput pyenv pyenv-virtualenv figlet-fonts zlib lttng-ust
+yay -S xclip figlet blueberry zsh-completions xorg-xinput pyenv pyenv-virtualenv figlet-fonts zlib lttng-ust fzf
 
 if [ ! -f ~/.local/bin/saml2aws ]; then
   CURRENT_VERSION=2.26.1
-  wget https://github.com/Versent/saml2aws/releases/download/v${CURRENT_VERSION}/saml2aws_${CURRENT_VERSION}_linux_amd64.tar.gz
+  wget https://github.com/Versent/saml2aws/releases/download/v${CURRENT_VERSION}/saml2aws_${CURRENT_VERSION}_linu_md64.tar.gz
   tar -xzvf saml2aws_${CURRENT_VERSION}_linux_amd64.tar.gz -C ~/.local/bin
   chmod u+x ~/.local/bin/saml2aws
 fi
@@ -30,10 +30,6 @@ sudo pacman -S zsh
 if [ ! -d ~/.config/zsh/pure ]; then
   git clone https://github.com/sindresorhus/pure.git ~/.config/zsh/pure
 fi
-# }}}
-
-# fzf {{{
-sudo pacman -S fzf
 # }}}
 
 # nvim {{{
