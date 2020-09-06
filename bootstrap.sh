@@ -4,7 +4,7 @@ mkdir -p ~/.local/{applications,bin,opt}
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
 
 yay -S xclip figlet blueberry zsh-completions xorg-xinput pyenv pyenv-virtualenv \
-	figlet-fonts zlib lttng-ust fzf zsh unzip rsync
+        figlet-fonts zlib lttng-ust fzf zsh unzip rsync cmake ninja ccls
 
 # win32yank {{{
 # requires https://www.microsoft.com/en-gb/download/confirmation.aspx?id=48145

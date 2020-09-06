@@ -7,6 +7,10 @@ alias oldvim="/usr/bin/vim"
 alias vimdiff='nvim -d'
 export EDITOR=nvim
 
+export xcopy="clip.exe"
+export pbcopy="clip.exe"
+export xclip="clip.exe"
+
 path+=("$HOME/.local/bin")
 path+=("$HOME/.local/dotnet")
 path+=("$HOME/.rbenv/bin")
@@ -35,3 +39,7 @@ autoload -U promptinit; promptinit
 autoload -Uz compinit
 prompt pure
 compinit
+
+export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+export LIBGL_ALWAYS_INDIRECT=1
+

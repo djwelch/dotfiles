@@ -20,7 +20,7 @@ function layer.init_config()
     :with_filetype("cpp")
     :with_filetype("cmake")
     :with_prerequisite_file("CMakeLists.txt")
-    :with_build_command("mkdir -p ./build && cd ./build && cmake -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE -DCMAKE_CXX_FLAGS='-fcolor-diagnostics' .. && ninja")
+    :with_build_command("mkdir -p ./build && cd ./build && cmake -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE -DCMAKE_CXX_FLAGS='-fdiagnostics-color' .. && ninja")
     :add()
 
 end

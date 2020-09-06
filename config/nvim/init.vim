@@ -9,4 +9,17 @@ if (!exists('g:vscode'))
   luafile ~/.config/nvim/init.lua
   let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.7 } }
 endif
-set clipboard=unnamed
+set clipboard=unnamedplus
+
+let g:clipboard = {
+      \   'name': 'WslClipboard',
+      \   'copy': {
+      \      '+': 'clip.exe',
+      \      '*': 'clip.exe',
+      \    },
+      \   'paste': {
+      \      '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+      \      '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+      \   },
+      \   'cache_enabled': 0,
+      \ }
