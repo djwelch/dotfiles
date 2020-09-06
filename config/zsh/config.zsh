@@ -7,9 +7,11 @@ alias oldvim="/usr/bin/vim"
 alias vimdiff='nvim -d'
 export EDITOR=nvim
 
-export xcopy="clip.exe"
-export pbcopy="clip.exe"
-export xclip="clip.exe"
+alias xcopy="clip.exe"
+alias pbcopy="clip.exe"
+alias xclip="clip.exe"
+
+alias vcxsrv="'/mnt/c/Program Files/VcXsrv/vcxsrv.exe' -ac -screen 0 800x600@1"
 
 path+=("$HOME/.local/bin")
 path+=("$HOME/.local/dotnet")
