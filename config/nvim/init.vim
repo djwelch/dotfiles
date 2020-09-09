@@ -28,6 +28,6 @@ function! Formatonsave()
   let l:formatdiff = 1
   pyf /usr/share/clang/clang-format.py
 endfunction
-autocmd BufWritePre *.h,*.cc,*.cpp call Formatonsave()
+autocmd BufWritePre *.h,*.hpp,*.cc,*.cpp call Formatonsave()
 let g:python3_host_prog  = '/home/david/.pyenv/versions/3.8.5/bin/python3'
 let g:python_host_prog  = '/home/david/.pyenv/versions/2.7.18/bin/python2'
