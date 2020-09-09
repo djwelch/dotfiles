@@ -53,7 +53,9 @@ if [ ! -f ~/.local/bin/nvim ]; then
   curl -L --create-dirs -o ~/.local/applications/nvim.appimage \
     https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
   chmod a+x ~/.local/applications/nvim.appimage
-  ln -s -r ~/.local/applications/nvim.appimage ~/.local/bin/nvim 
+  ~/.local/applications/nvim.appimage --appimage-extract
+  mv ~/.local/squashfs-root ~/.local/nvim
+  ln -s -r ~/.local/nvim/AppRun ~/.local/bin/nvim 
 fi
 # }}}
 
