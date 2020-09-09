@@ -3,21 +3,28 @@ mkdir -p ~/.local/{applications,bin,opt}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
 
-yay -S xclip figlet blueberry zsh-completions xorg-xinput pyenv pyenv-virtualenv \
-        figlet-fonts zlib lttng-ust fzf zsh unzip rsync cmake ninja ccls
-
-# win32yank {{{
-# requires https://www.microsoft.com/en-gb/download/confirmation.aspx?id=48145
-if [ ! -f ~/.local/bin/win32yank.exe ]; then
-  curl -L --create-dirs -o ~/tmp/win32yank-x64.zip \
-    https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
-  unzip ~/tmp/win32yank-x64.zip -d ~/tmp/win32yank-x64
-  cp ~/tmp/win32yank-x64/win32yank.exe ~/.local/bin/.
-  chmod a+x ~/.local/bin/win32yank.exe
+if ! type "yay" > /dev/null; then
+  git clone https://aur.archlinux.org/yay.git ~/tmp/yay
+  cd ~/tmp/yay
+  makepkg -si
 fi
-rm -f ~/tmp/win32yank-x64.zip
-rm -rf ~/tmp/win32yank-x64
-# }}}
+
+yay -S xclip figlet blueberry zsh-completions xorg-xinput pyenv pyenv-virtualenv \
+        figlet-fonts zlib lttng-ust fzf zsh unzip rsync cmake ninja ccls \
+        boost boost-libs qt5-base
+
+# # win32yank {{{
+# # requires https://www.microsoft.com/en-gb/download/confirmation.aspx?id=48145
+# if [ ! -f ~/.local/bin/win32yank.exe ]; then
+#   curl -L --create-dirs -o ~/tmp/win32yank-x64.zip \
+#     https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
+#   unzip ~/tmp/win32yank-x64.zip -d ~/tmp/win32yank-x64
+#   cp ~/tmp/win32yank-x64/win32yank.exe ~/.local/bin/.
+#   chmod a+x ~/.local/bin/win32yank.exe
+# fi
+# rm -f ~/tmp/win32yank-x64.zip
+# rm -rf ~/tmp/win32yank-x64
+# # }}}
 
 # lolcat {{{
 if [ ! -f ~/.local/bin/lolcat ]; then
