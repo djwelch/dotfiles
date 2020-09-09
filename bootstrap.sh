@@ -13,6 +13,9 @@ yay -S xclip figlet blueberry zsh-completions xorg-xinput pyenv pyenv-virtualenv
         figlet-fonts zlib lttng-ust fzf zsh unzip rsync cmake ninja ccls \
         boost boost-libs qt5-base
 
+pyenv install 3.8.5
+pyenv install 2.7.18
+
 # # win32yank {{{
 # # requires https://www.microsoft.com/en-gb/download/confirmation.aspx?id=48145
 # if [ ! -f ~/.local/bin/win32yank.exe ]; then
