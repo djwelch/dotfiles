@@ -23,6 +23,7 @@ export PKG_CONFIG_PATH=~/.local/lib/pkgconfig
 export DOTNET_ROOT=/home/david/.local/dotnet
 
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 [ -f ~/.config/zsh/history.zsh ] && source ~/.config/zsh/history.zsh
 [ -f ~/.config/zsh/motd.zsh ] && source ~/.config/zsh/motd.zsh
