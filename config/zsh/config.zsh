@@ -1,3 +1,4 @@
+export TERM=putty
 export COLORTERM=truecolor
 alias ls='ls --color=auto'
 

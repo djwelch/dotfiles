@@ -31,3 +31,12 @@ endfunction
 autocmd BufWritePre *.h,*.hpp,*.cc,*.cpp call Formatonsave()
 let g:python3_host_prog  = '/home/david/.pyenv/versions/3.8.5/bin/python3'
 let g:python_host_prog  = '/home/david/.pyenv/versions/2.7.18/bin/python2'
+
+function! Guid()
+python << EOF
+import uuid, vim
+vim.command("normal i" + str(uuid.uuid4()) )
+EOF
+endfunction
+
+map <m-g> :call Guid() <cr>
