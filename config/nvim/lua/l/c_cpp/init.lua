@@ -13,7 +13,7 @@ function layer.init_config()
   local build = require("l.build")
   local nvim_lsp = require("nvim_lsp")
 
-  lsp.register_server(nvim_lsp.ccls)
+  lsp.register_server(nvim_lsp.clangd)
 
   build.make_builder()
     :with_filetype("c")

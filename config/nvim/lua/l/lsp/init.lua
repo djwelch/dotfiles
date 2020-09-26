@@ -11,8 +11,10 @@ local layer = {}
 --- Returns plugins required for this layer
 function layer.register_plugins()
   plug.add_plugin("neovim/nvim-lsp")
-  plug.add_plugin("haorenW1025/completion-nvim")
-  -- plug.add_plugin("haorenW1025/diagnostic-nvim")
+  plug.add_plugin("nvim-lua/completion-nvim")
+  plug.add_plugin("nvim-lua/diagnostic-nvim")
+  -- plug.add_plugin("RishabhRD/popfix")
+  -- plug.add_plugin("RishabhRD/nvim-lsputils")
 end
 
 local function user_stop_all_clients()
@@ -90,15 +92,17 @@ function layer.init_config()
   keybind.bind_command(edit_mode.NORMAL, "<leader>lr", ":lua vim.lsp.buf.references()<CR>", { noremap = true }, "Find references")
   keybind.bind_command(edit_mode.NORMAL, "<leader>lR", ":lua vim.lsp.buf.rename()<CR>", { noremap = true }, "Rename")
   keybind.bind_command(edit_mode.NORMAL, "<leader>ld", ":lua vim.lsp.buf.document_symbol()<CR>", { noremap = true }, "Document symbol list")
+  keybind.bind_command(edit_mode.NORMAL, "<leader>lf", ":lua vim.lsp.buf.code_action()<CR>", { noremap = true }, "Code actions")
 
-  -- keybind.bind_command(edit_mode.NORMAL, "<leader>le", ":OpenDiagnostic<CR>:lw<CR>", { noremap = true }, "Show errors/diagnostics")
-  -- keybind.bind_command(edit_mode.NORMAL, "]d", ":NextDiagnostic<CR>", { noremap = true }, "Show errors/diagnostics")
-  -- keybind.bind_command(edit_mode.NORMAL, "[d", ":PrevDiagnostic<CR>", { noremap = true }, "Show errors/diagnostics")
+  keybind.bind_command(edit_mode.NORMAL, "<leader>le", ":OpenDiagnostic<CR>:lw<CR>", { noremap = true }, "Show errors/diagnostics")
+  keybind.bind_command(edit_mode.NORMAL, "]d", ":NextDiagnostic<CR>", { noremap = true }, "Show errors/diagnostics")
+  keybind.bind_command(edit_mode.NORMAL, "[d", ":PrevDiagnostic<CR>", { noremap = true }, "Show errors/diagnostics")
 
   keybind.set_group_name("<leader>j", "Jump")
   keybind.bind_command(edit_mode.NORMAL, "<leader>jd", ":lua vim.lsp.buf.declaration()<CR>", { noremap = true }, "Jump to declaration")
   keybind.bind_command(edit_mode.NORMAL, "<leader>ji", ":lua vim.lsp.buf.implementation()<CR>", { noremap = true }, "Jump to implementation")
   keybind.bind_command(edit_mode.NORMAL, "<leader>jf", ":lua vim.lsp.buf.definition()<CR>", { noremap = true }, "Jump to definition")
+
 
   -- Show docs when the cursor is held over something
   -- autocmd.bind_cursor_hold(function()
@@ -119,6 +123,20 @@ function layer.init_config()
     vim.fn["airline#parts#define_accent"]("c_lsp", "yellow")
     vim.g.airline_section_y = vim.fn["airline#section#create_right"]{"c_lsp", "ffenc"}
   end
+
+  -- vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+  -- vim.lsp.callbacks['textDocument/references'] = require'lsputil.locations'.references_handler
+  -- vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
+  -- vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+  -- vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+  -- vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+  -- vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+  -- vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+
+  -- local function ca(_, _, action) 
+  --   print(vim.inspect(action))
+  -- end
+  -- vim.lsp.callbacks["textDocument/codeAction"] = ca
 end
 
 --- Maps filetypes to their server definitions
@@ -136,12 +154,12 @@ layer.filetype_servers = {}
 -- @param config The config for the server (in the format expected by `nvim_lsp`)
 function layer.register_server(server, config)
   local completion = require("completion") -- From completion-nvim
-  -- local diagnostic = require("diagnostic") -- From diagnostic-nvim
+  local diagnostic = require("diagnostic") -- From diagnostic-nvim
 
   config = config or {}
   config.on_attach = function(...)
     completion.on_attach(...)
-    -- diagnostic.on_attach(...)
+    diagnostic.on_attach(...)
   end
   config = vim.tbl_extend("keep", config, server.document_config.default_config)
 
