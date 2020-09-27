@@ -18,6 +18,7 @@ layer.add_layer("l.lsp")
 layer.add_layer("l.typescript")
 layer.add_layer("l.build")
 layer.add_layer("l.c_cpp")
+layer.add_layer("l.rust")
 
 layer.finish_layer_registration()
 
