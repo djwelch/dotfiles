@@ -12,6 +12,7 @@ local layer = {}
 --- Returns plugins required for this layer
 function layer.register_plugins()
   plug.add_plugin("tpope/vim-dispatch")
+  plug.add_plugin("radenling/vim-dispatch-neovim")
 end
 
 --- Configures vim and plugins for this layer
@@ -40,7 +41,7 @@ function layer.init_config()
     function()
       local run_cmd = vim.b.c_dispatch_run
       if run_cmd ~= nil then
-        vim.cmd("Dispatch " .. run_cmd)
+        vim.cmd("Start " .. run_cmd)
       else
         print("No run command configured! (Buffer variable 'c_dispatch_run' missng)")
       end
