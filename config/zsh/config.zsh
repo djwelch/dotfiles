@@ -19,6 +19,7 @@ path+=("$HOME/.local/dotnet")
 path+=("$HOME/.rbenv/bin")
 path+=("$HOME/.yarn/bin")
 path+=("$HOME/.config/yarn/global/node_modules/.bin")
+path+=("$HOME/.cargo/bin")
 export PATH
 export PKG_CONFIG_PATH=~/.local/lib/pkgconfig
 export DOTNET_ROOT=/home/david/.local/dotnet
