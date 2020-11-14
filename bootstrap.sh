@@ -11,7 +11,7 @@ fi
 
 yay -S xclip figlet blueberry zsh-completions xorg-xinput pyenv pyenv-virtualenv \
         figlet-fonts zlib lttng-ust fzf zsh unzip rsync cmake ninja ccls \
-        boost boost-libs qt5-base community/rtaudio rustup
+        boost boost-libs qt5-base community/rtaudio rustup dotnet-runtime dotnet-sdk
 
 pyenv install 3.8.5
 pyenv install 2.7.18
@@ -79,4 +79,12 @@ fi
 #   ~/tmp/dotnet-install.sh --install-dir ~/.local/dotnet -channel Current -version latest
 # fi
 
+# nvim {{{
+if [ ! -f ~/.local/bin/nvim ]; then
+  curl -L --create-dirs -o ~/tmp/omnisharp-linux-x64.tar.gz \
+    https://github.com/OmniSharp/omnisharp-roslyn/releases/download/v1.37.3/omnisharp-linux-x64.tar.gz
+  mkdir ~/.local/opt/omnisharp
+  tar -xf ~/tmp/omnisharp-linux-x64.tar.gz -C ~/.local/opt/omnisharp
+fi
+# }}}
 
