@@ -41,3 +41,5 @@ EOF
 endfunction
 
 map <m-g> :call Guid() <cr>
+
+au TermOpen * setlocal nonumber norelativenumber

@@ -33,9 +33,9 @@ end
 
 local function open_bottom_split()
   -- Open a window and shove it to the bottom
-  vim.cmd("split")
-  vim.cmd("wincmd J")
-  vim.api.nvim_win_set_height(0, 16)
+  vim.cmd("vsplit")
+  vim.cmd("wincmd L")
+  vim.api.nvim_win_set_width(0, 60)
 end
 
 local function open_or_focus_term()
@@ -68,9 +68,9 @@ local function hide_term()
   vim.api.nvim_win_close(terminal_win, false)
 end
 
--- Save and restore terminal height {{{
+-- Save and restore terminal width {{{
 
-local last_term_win_size = nil
+local last_term_win_size = 60
 
 local function save_term_win()
   local terminal_buf = get_buf_by_name(TERMINAL_BUF_NAME)
@@ -78,7 +78,7 @@ local function save_term_win()
   local terminal_win = find_win_with_buf(terminal_buf)
   if terminal_win == nil then return end
 
-  last_term_win_size = vim.api.nvim_win_get_height(terminal_win)
+  last_term_win_size = vim.api.nvim_win_get_width(terminal_win)
 end
 
 local function restore_term_win()
@@ -87,7 +87,7 @@ local function restore_term_win()
   local terminal_win = find_win_with_buf(terminal_buf)
   if terminal_win == nil then return end
 
-  vim.api.nvim_win_set_height(terminal_win, last_term_win_size)
+  vim.api.nvim_win_set_width(terminal_win, last_term_win_size)
 end
 
 -- }}}
