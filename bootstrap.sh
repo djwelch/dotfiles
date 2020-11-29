@@ -54,16 +54,17 @@ if [ ! -f ~/.local/bin/nvim ]; then
     https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
   chmod a+x ~/.local/applications/nvim.appimage
   ~/.local/applications/nvim.appimage --appimage-extract
-  mv ~/.local/squashfs-root ~/.local/nvim
+  mv squashfs-root ~/.local/nvim
+  rm ~/.local/bin/nvim
   ln -s -r ~/.local/nvim/AppRun ~/.local/bin/nvim 
 fi
 # }}}
 
 # # nvm {{{
-# if [ ! -d ~/.nvm ]; then
-#   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-#   curl -o- -L https://yarnpkg.com/install.sh | bash
-# fi
+ if [ ! -d ~/.nvm ]; then
+   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+   curl -o- -L https://yarnpkg.com/install.sh | bash
+ fi
 # # }}}
 #
 # if [ ! -f ~/.local/bin ]; then
@@ -72,12 +73,12 @@ fi
 # tar -zxf ~/tmp/jetbrains-toolbox-1.17.7018.tar.gz -C ~/.local/opt
 # ln -s -r ~/.local/opt/jetbrains-toolbox-1.17.7018/jetbrains-toolbox ~/.local/bin/jetbrains-toolbox
 # fi
-# 
-# if [ ! -d ~/.local/dotnet]; then
-#   curl -L --create-dirs -o ~/tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh
-#   chmod u+x ~/tmp/dotnet-install.sh
-#   ~/tmp/dotnet-install.sh --install-dir ~/.local/dotnet -channel Current -version latest
-# fi
+
+if [ ! -d ~/.local/dotnet]; then
+  curl -L --create-dirs -o ~/tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh
+  chmod u+x ~/tmp/dotnet-install.sh
+  ~/tmp/dotnet-install.sh --install-dir ~/.local/dotnet -channel Current -version latest
+fi
 
 # nvim {{{
 if [ ! -f ~/.local/bin/nvim ]; then

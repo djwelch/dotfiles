@@ -80,7 +80,7 @@ function layer.init_config()
   vim.o.showcmd = true
 
   -- Show line at column 120
-  set_default_win_opt("colorcolumn", "100")
+  set_default_win_opt("colorcolumn", "85")
 
   -- Enable mouse support
   vim.o.mouse = "a"

@@ -11,6 +11,7 @@ local layer = {}
 --- Returns plugins required for this layer
 function layer.register_plugins()
   plug.add_plugin("neovim/nvim-lsp")
+  plug.add_plugin("neovim/nvim-lspconfig")
   plug.add_plugin("nvim-lua/completion-nvim")
   plug.add_plugin("nvim-lua/diagnostic-nvim")
   -- plug.add_plugin("RishabhRD/popfix")

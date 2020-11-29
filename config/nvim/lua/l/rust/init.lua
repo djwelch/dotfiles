@@ -15,7 +15,7 @@ end
 function layer.init_config()
   local lsp = require("l.lsp")
   local build = require("l.build")
-  local nvim_lsp = require("nvim_lsp")
+  local nvim_lsp = require("lspconfig")
 
   -- lsp.register_server(nvim_lsp.rls)
   lsp.register_server(nvim_lsp.rust_analyzer)

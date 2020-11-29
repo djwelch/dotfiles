@@ -36,6 +36,7 @@ function plug.finish_plugin_registration()
     end
   end
 
+  vim.fn["plug#"]("prettier/vim-prettier") --, { do = "yarn install" })
   vim.fn["plug#end"]()
 
   plug.finished_plugin_init = true

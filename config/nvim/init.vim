@@ -42,4 +42,11 @@ endfunction
 
 map <m-g> :call Guid() <cr>
 
-au TermOpen * setlocal nonumber norelativenumber
+nmap <Leader>pp <Plug>(Prettier)
+let g:prettier#config#print_width = '83'
+let g:prettier#config#tab_width = '2'
+let g:prettier#config#single_quote = 'true'
+let g:prettier#config#trailing_comma = 'all'
+
+autocmd TermOpen * setlocal nonumber norelativenumber
+
