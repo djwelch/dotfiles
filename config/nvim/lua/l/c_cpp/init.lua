@@ -13,14 +13,14 @@ function layer.init_config()
   local build = require("l.build")
   local nvim_lsp = require("lspconfig")
 
-  lsp.register_server(nvim_lsp.clangd)
+  lsp.register_server(nvim_lsp.clangd, { cmd = {"clangd", "--background-index", "--compile-commands-dir=./build" } })
 
   build.make_builder()
     :with_filetype("c")
     :with_filetype("cpp")
     :with_filetype("cmake")
     :with_prerequisite_file("CMakeLists.txt")
-    :with_build_command("mkdir -p ./build && cd ./build && cmake -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE -DCMAKE_CXX_FLAGS='-fdiagnostics-color' .. && ninja")
+    :with_build_command("mkdir -p ./build && cd ./build && cmake -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_CXX_FLAGS='-fdiagnostics-color' .. && ninja -v")
     :add()
 
 end

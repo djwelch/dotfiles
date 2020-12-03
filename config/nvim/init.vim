@@ -12,17 +12,17 @@ endif
 set clipboard=unnamedplus
 
 let g:clipboard = {
-      \   'name': 'WslClipboard',
-      \   'copy': {
-      \      '+': 'clip.exe',
-      \      '*': 'clip.exe',
-      \    },
-      \   'paste': {
-      \      '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-      \      '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-      \   },
-      \   'cache_enabled': 0,
-      \ }
+    \   'name': 'myClipboard',
+    \   'copy': {
+    \      '+': 'win32yank -i',
+    \      '*': 'win32yank -i',
+    \    },
+    \   'paste': {
+    \      '+': 'win32yank -o',
+    \      '*': 'win32yank -o',
+    \   },
+    \   'cache_enabled': 1,
+    \ }
 
 function! ClangFormatonsave()
   let l:formatdiff = 1
