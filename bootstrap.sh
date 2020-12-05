@@ -18,16 +18,16 @@ pyenv install 2.7.18
 
 # # win32yank {{{
 # # requires https://www.microsoft.com/en-gb/download/confirmation.aspx?id=48145
-# if [ ! -f ~/.local/bin/win32yank.exe ]; then
-#   curl -L --create-dirs -o ~/tmp/win32yank-x64.zip \
-#     https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
-#   unzip ~/tmp/win32yank-x64.zip -d ~/tmp/win32yank-x64
-#   cp ~/tmp/win32yank-x64/win32yank.exe ~/.local/bin/.
-#   chmod a+x ~/.local/bin/win32yank.exe
-# fi
-# rm -f ~/tmp/win32yank-x64.zip
-# rm -rf ~/tmp/win32yank-x64
-# # }}}
+if [ ! -f ~/.local/bin/win32yank.exe ]; then
+  curl -L --create-dirs -o ~/tmp/win32yank-x64.zip \
+    https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
+  unzip ~/tmp/win32yank-x64.zip -d ~/tmp/win32yank-x64
+  cp ~/tmp/win32yank-x64/win32yank.exe ~/.local/bin/.
+  chmod a+x ~/.local/bin/win32yank.exe
+fi
+rm -f ~/tmp/win32yank-x64.zip
+rm -rf ~/tmp/win32yank-x64
+# }}}
 
 # lolcat {{{
 if [ ! -f ~/.local/bin/lolcat ]; then
