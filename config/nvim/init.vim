@@ -6,7 +6,7 @@ if (!exists('g:vscode'))
       \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
   endif
-  luafile ~/.config/nvim/init.lua
+  luafile ~/.config/nvim/config.lua
   let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.7 } }
 endif
 set clipboard=unnamedplus

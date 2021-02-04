@@ -1,21 +1,28 @@
---- Language server protocol support, courtesy of Neovim
+-- Language server protocol support, courtesy of Neovim
 -- @module l.lsp
 
 local keybind = require("c.keybind")
 local edit_mode = require("c.edit_mode")
 local autocmd = require("c.autocmd")
 local plug = require("c.plug")
+local class = require("c.class")
+local Signal = require("c.signal").Signal
 
 local layer = {}
+
+local ClientProgress = class.strict {
+  title = "...",
+  message = class.NULL,
+  percentage = class.NULL,
+}
+
+layer.client_progress = {}
+layer.signal_progress_update = Signal()
 
 --- Returns plugins required for this layer
 function layer.register_plugins()
   plug.add_plugin("neovim/nvim-lsp")
-  plug.add_plugin("neovim/nvim-lspconfig")
-  plug.add_plugin("nvim-lua/completion-nvim")
-  plug.add_plugin("nvim-lua/diagnostic-nvim")
-  -- plug.add_plugin("RishabhRD/popfix")
-  -- plug.add_plugin("RishabhRD/nvim-lsputils")
+  plug.add_plugin("haorenW1025/completion-nvim")
 end
 
 local function user_stop_all_clients()
@@ -52,15 +59,70 @@ function layer._get_airline_part()
   end
 
   if #client_names > 0 then
-    return "LSP: " .. table.concat(client_names, ", ")
+    local sections = { "LSP:", table.concat(client_names, ", ") }
+
+    local error_count = vim.lsp.diagnostic.get_count("Error")
+    if error_count ~= nil and error_count > 0 then table.insert(sections, "E: " .. error_count) end
+
+    local warn_count = vim.lsp.diagnostic.get_count("Warning")
+    if error_count ~= nil and warn_count > 0 then table.insert(sections, "W: " .. warn_count) end
+
+    local info_count = vim.lsp.diagnostic.get_count("Information")
+    if error_count ~= nil and info_count > 0 then table.insert(sections, "I: " .. info_count) end
+
+    local hint_count = vim.lsp.diagnostic.get_count("Hint")
+    if error_count ~= nil and hint_count > 0 then table.insert(sections, "H: " .. hint_count) end
+
+    return table.concat(sections, " ")
   else
     return ""
   end
 end
 
+local function on_progress(err, method, result, client_id, buf_num, config)
+  if err ~= nil then return end
+
+  if result.value.kind == "end" then
+    layer.client_progress[client_id] = nil
+  else
+    local prog = layer.client_progress[client_id]
+    if prog == nil then
+      prog = ClientProgress()
+      layer.client_progress[client_id] = prog
+    end
+
+    prog.title = result.value.title or prog.title
+    prog.message = result.value.message or prog.message
+
+    -- So the LSP spec says percentage should be a value between 0 - 100
+    -- but some clients (like ccls) give a value between 0 - 1
+    -- so here's a kludgey workaround
+    if result.value.percentage ~= nil then
+      local percent = result.value.percentage
+      if percent <= 1 then
+        prog.percentage = percent
+      else
+        prog.percentage = percent / 100
+      end
+    end
+  end
+
+
+  layer.signal_progress_update:emit()
+end
+
 --- Configures vim and plugins for this layer
 function layer.init_config()
+  -- We want to recieve progress messages
+  vim.lsp.handlers['$/progress'] = on_progress
+
   vim.api.nvim_set_var("completion_enable_in_comemnt", 1)
+  vim.api.nvim_set_var("completion_confirm_key", "") -- I just use tab, plus also this conflicts with auto-pairs
+  vim.api.nvim_set_var("completion_trigger_on_delete", 1)
+
+  if plug.has_plugin("ultisnips") then
+    vim.g.completion_enable_snippet = "UltiSnips"
+  end
 
   -- Bind leader keys
   keybind.set_group_name("<leader>l", "LSP")
@@ -95,19 +157,14 @@ function layer.init_config()
   keybind.bind_command(edit_mode.NORMAL, "<leader>ld", ":lua vim.lsp.buf.document_symbol()<CR>", { noremap = true }, "Document symbol list")
   keybind.bind_command(edit_mode.NORMAL, "<leader>lf", ":lua vim.lsp.buf.code_action()<CR>", { noremap = true }, "Code actions")
 
-  keybind.bind_command(edit_mode.NORMAL, "<leader>le", ":OpenDiagnostic<CR>:lw<CR>", { noremap = true }, "Show errors/diagnostics")
-  keybind.bind_command(edit_mode.NORMAL, "]d", ":NextDiagnostic<CR>", { noremap = true }, "Show errors/diagnostics")
-  keybind.bind_command(edit_mode.NORMAL, "[d", ":PrevDiagnostic<CR>", { noremap = true }, "Show errors/diagnostics")
-
   keybind.set_group_name("<leader>j", "Jump")
   keybind.bind_command(edit_mode.NORMAL, "<leader>jd", ":lua vim.lsp.buf.declaration()<CR>", { noremap = true }, "Jump to declaration")
   keybind.bind_command(edit_mode.NORMAL, "<leader>ji", ":lua vim.lsp.buf.implementation()<CR>", { noremap = true }, "Jump to implementation")
   keybind.bind_command(edit_mode.NORMAL, "<leader>jf", ":lua vim.lsp.buf.definition()<CR>", { noremap = true }, "Jump to definition")
 
-
   -- Show docs when the cursor is held over something
   -- autocmd.bind_cursor_hold(function()
-  --   vim.cmd("lua vim.lsp.buf.hover()")
+    -- vim.cmd("lua vim.lsp.buf.hover()")
   -- end)
 
   -- Show in vim-airline the attached LSP client
@@ -124,45 +181,34 @@ function layer.init_config()
     vim.fn["airline#parts#define_accent"]("c_lsp", "yellow")
     vim.g.airline_section_y = vim.fn["airline#section#create_right"]{"c_lsp", "ffenc"}
   end
-
-  -- vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-  -- vim.lsp.callbacks['textDocument/references'] = require'lsputil.locations'.references_handler
-  -- vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
-  -- vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-  -- vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-  -- vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-  -- vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-  -- vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-
-  -- local function ca(_, _, action) 
-  --   print(vim.inspect(action))
-  -- end
-  -- vim.lsp.callbacks["textDocument/codeAction"] = ca
 end
 
 --- Maps filetypes to their server definitions
 --
 -- <br>
--- Eg: `["rust"] = nvim_lsp.rls`
+-- Eg: `["rust"] = lspconfig.rls`
 --
 -- <br>
--- See `nvim_lsp` for what a server definition looks like
+-- See `lspconfig` for what a server definition looks like
 layer.filetype_servers = {}
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.window = capabilities.window or {}
+capabilities.window.workDoneProgress = true
 
 --- Register an LSP server
 --
--- @param server An LSP server definition (in the format expected by `nvim_lsp`)
--- @param config The config for the server (in the format expected by `nvim_lsp`)
+-- @param server An LSP server definition (in the format expected by `lspconfig`)
+-- @param config The config for the server (in the format expected by `lspconfig`)
 function layer.register_server(server, config)
   local completion = require("completion") -- From completion-nvim
-  local diagnostic = require("diagnostic") -- From diagnostic-nvim
 
   config = config or {}
-  config.on_attach = function(...)
-    completion.on_attach(...)
-    diagnostic.on_attach(...)
-  end
+  config.on_attach = completion.on_attach
   config = vim.tbl_extend("keep", config, server.document_config.default_config)
+
+  -- We want to recieve progress messages
+  config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, capabilities)
 
   server.setup(config)
 

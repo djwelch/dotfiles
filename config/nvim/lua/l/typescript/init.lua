@@ -7,6 +7,7 @@ local layer = {}
 --- Returns plugins required for this layer
 function layer.register_plugins()
   -- plug.add_plugin("prettier/vim-prettier", { do = 'yarn install' })
+  plug.add_plugin("peitalin/vim-jsx-typescript")
 end
 
 --- Configures vim and plugins for this layer
