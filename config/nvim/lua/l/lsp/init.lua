@@ -23,6 +23,7 @@ layer.signal_progress_update = Signal()
 function layer.register_plugins()
   plug.add_plugin("neovim/nvim-lsp")
   plug.add_plugin("haorenW1025/completion-nvim")
+  plug.add_plugin("glepnir/lspsaga.nvim")
 end
 
 local function user_stop_all_clients()
@@ -113,6 +114,39 @@ end
 
 --- Configures vim and plugins for this layer
 function layer.init_config()
+  require'lspsaga'.init_lsp_saga({
+    rename_prompt_prefix = '',
+    error_sign = '❌',
+    warn_sign = '⚠️',
+    hint_sign = '💡',
+    infor_sign = '❓',
+    max_diag_msg_width = 80,
+  })
+
+  local old_range_params = vim.lsp.util.make_given_range_params
+  function vim.lsp.util.make_given_range_params(start_pos, end_pos)
+    local params = old_range_params(start_pos, end_pos)
+    local add = vim.o.selection ~= 'exclusive' and 1 or 0
+    params.range['end'].character = params.range['end'].character + add
+    return params
+  end
+
+  vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
+    if not result then return end
+    vim.fn.cursor(result.position.line + 1, result.position.character + 1)
+    vim.cmd [[:Lspsaga rename]]
+    return {}
+  end
+
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, method, params, client_id, bufnr, config)
+    local client = vim.lsp.get_client_by_id(client_id)
+    local is_ts = vim.tbl_contains({'typescript', 'typescriptreact'}, vim.bo.filetype)
+    if client and client.name == 'tsserver' and not is_ts then return end
+
+    return vim.lsp.diagnostic.on_publish_diagnostics(
+      err, method, params, client_id, bufnr, vim.tbl_deep_extend("force", config or {}, { virtual_text = false })
+    )
+  end
   -- We want to recieve progress messages
   vim.lsp.handlers['$/progress'] = on_progress
 
@@ -126,8 +160,8 @@ function layer.init_config()
 
   -- Bind leader keys
   keybind.set_group_name("<leader>l", "LSP")
-  keybind.bind_function(edit_mode.NORMAL, "<leader>ls", user_stop_all_clients, nil, "Stop all LSP clients")
-  keybind.bind_function(edit_mode.NORMAL, "<leader>la", user_attach_client, nil, "Attach LSP client to buffer")
+  keybind.bind_function(edit_mode.NORMAL, "<leader>lS", user_stop_all_clients, nil, "Stop all LSP clients")
+  keybind.bind_function(edit_mode.NORMAL, "<leader>lA", user_attach_client, nil, "Attach LSP client to buffer")
 
   -- Tabbing
   keybind.bind_command(edit_mode.INSERT, "<tab>", "pumvisible() ? '<C-n>' : '<tab>'", { noremap = true, expr = true })
@@ -144,28 +178,30 @@ function layer.init_config()
   autocmd.bind_filetype("*", function()
     local server = layer.filetype_servers[vim.bo.ft]
     if server ~= nil then
-      keybind.buf_bind_command(edit_mode.NORMAL, "gd", ":lua vim.lsp.buf.declaration()<CR>", { noremap = true })
-      keybind.buf_bind_command(edit_mode.NORMAL, "gD", ":lua vim.lsp.buf.implementation()<CR>", { noremap = true })
-      keybind.buf_bind_command(edit_mode.NORMAL, "<C-]>", ":lua vim.lsp.buf.definition()<CR>", { noremap = true })
-      keybind.buf_bind_command(edit_mode.NORMAL, "K", ":lua vim.lsp.buf.hover()<CR>", { noremap = true })
-      -- keybind.bind_command(edit_mode.NORMAL, "<C-k>", ":lua vim.lsp.buf.signature_help()<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.NORMAL, "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.NORMAL, "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.NORMAL, "K", ":Lspsaga hover_doc<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.NORMAL, "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.NORMAL, "gs", ":Lspsaga signature_help<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.NORMAL, "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.NORMAL, "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.NORMAL, "ga", ":Lspsaga code_action<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.VISUAL, "ga", ":<C-U>Lspsaga range_code_action<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.NORMAL, "[g", ":Lspsaga diagnostic_jump_prev<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.NORMAL, "]g", ":Lspsaga diagnostic_jump_next<CR>", { noremap = true })
     end
   end)
 
-  keybind.bind_command(edit_mode.NORMAL, "<leader>lr", ":lua vim.lsp.buf.references()<CR>", { noremap = true }, "Find references")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>lR", ":lua vim.lsp.buf.rename()<CR>", { noremap = true }, "Rename")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>ld", ":lua vim.lsp.buf.document_symbol()<CR>", { noremap = true }, "Document symbol list")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>lf", ":lua vim.lsp.buf.code_action()<CR>", { noremap = true }, "Code actions")
-
-  keybind.set_group_name("<leader>j", "Jump")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>jd", ":lua vim.lsp.buf.declaration()<CR>", { noremap = true }, "Jump to declaration")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>ji", ":lua vim.lsp.buf.implementation()<CR>", { noremap = true }, "Jump to implementation")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>jf", ":lua vim.lsp.buf.definition()<CR>", { noremap = true }, "Jump to definition")
+  keybind.bind_command(edit_mode.NORMAL, "<leader>lr", ":Lspsaga rename<CR>", { noremap = true }, "Rename")
+  keybind.bind_command(edit_mode.NORMAL, "<leader>ld", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", { noremap = true }, "Document symbol list")
+  keybind.bind_command(edit_mode.NORMAL, "<leader>la", ":Lspsaga code_action<CR>", { noremap = true }, "Code actions")
+  keybind.bind_command(edit_mode.VISUAL, "<leader>la", ":<C-U>Lspsaga range_code_action<CR>", { noremap = true }, "Code actions")
+  keybind.bind_command(edit_mode.NORMAL, "<leader>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", { noremap = true }, "Format")
 
   -- Show docs when the cursor is held over something
-  -- autocmd.bind_cursor_hold(function()
-    -- vim.cmd("lua vim.lsp.buf.hover()")
-  -- end)
+  autocmd.bind_cursor_hold(function()
+     -- vim.cmd("lua require'nvim-lightbulb'.update_lightbulb()")
+  end)
 
   -- Show in vim-airline the attached LSP client
   if plug.has_plugin("vim-airline") then
