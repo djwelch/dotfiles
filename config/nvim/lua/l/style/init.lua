@@ -22,6 +22,7 @@ function layer.register_plugins()
   plug.add_plugin("vim-airline/vim-airline-themes") -- Sweet looking status line
   plug.add_plugin("kristijanhusak/vim-hybrid-material") -- Colorscheme
   plug.add_plugin("https://gitlab.com/CraftedCart/vim-indent-guides") -- Indent guides
+  plug.add_plugin("jaxbot/semantic-highlight.vim") -- Raiiiiiiinbow coloring!
 end
 
 --- Configures vim and plugins for this layer
@@ -113,6 +114,33 @@ function layer.init_config()
   end)
   
   terminal.init_config()
+
+  local highlight_langs = {
+    "c",
+    "cpp",
+    "d",
+    "python",
+    "javascript",
+    "typescript",
+    "lua",
+    "rust",
+  }
+
+  autocmd.bind_buf_enter(function()
+    if vim.tbl_contains(highlight_langs, vim.bo.filetype) then
+      vim.cmd("SemanticHighlight")
+    end
+  end)
+  autocmd.bind_buf_write_post(function()
+    if vim.tbl_contains(highlight_langs, vim.bo.filetype) then
+      vim.cmd("SemanticHighlight")
+    end
+  end)
+  autocmd.bind_vim_enter(function()
+    if vim.tbl_contains(highlight_langs, vim.bo.filetype) then
+      vim.cmd("SemanticHighlight")
+    end
+  end)
 end
 
 return layer

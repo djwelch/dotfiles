@@ -110,4 +110,25 @@ function autocmd.bind_win_closed(func)
   autocmd.bind("WinClosed *", func)
 end
 
+--- Register a callback for when entering a window
+--
+-- @tparam function func The function to call when the autocommand fires
+function autocmd.bind_win_enter(func)
+  autocmd.bind("WinEnter *", func)
+end
+
+--- Register a callback for when entering a buffer
+--
+-- @tparam function func The function to call when the autocommand fires
+function autocmd.bind_buf_enter(func)
+  autocmd.bind("BufEnter *", func)
+end
+
+--- Register a callback for after saving a buffer
+--
+-- @tparam function func The function to call when the autocommand fires
+function autocmd.bind_buf_write_post(func)
+  autocmd.bind("BufWritePost *", func)
+end
+
 return autocmd
