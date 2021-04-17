@@ -90,3 +90,12 @@ if [ ! -f ~/.local/bin/nvim ]; then
 fi
 # }}}
 
+# rescript {{{
+if [ ! -f ~/.local/bin/nvim ]; then
+  git clone https://github.com/rescript-lang/rescript-vscode ~/tmp/rescript-vscode && cd ~/tmp/rescript-vscode && yarn && yarn compile
+  cd server && yarn add chokidar
+  cp -r ./out ~/.local/opt/rescript-lsp
+  cp -rf ./node_modules ~/.local/opt/rescript-lsp/.
+  cd ..
+fi
+# }}}
