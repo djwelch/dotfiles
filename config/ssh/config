@@ -3,3 +3,9 @@ Host github.com
 
 Host gitlab.com
   IdentityFile ~/.ssh/gitlab_id_rsa
+
+Host remarkable
+  Hostname 10.11.99.1
+  # Hostname 192.168.1.171
+  User root
+  IdentityFile ~/.ssh/remarkable_id_rsa

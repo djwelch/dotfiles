@@ -2,6 +2,7 @@
 mkdir -p ~/.local/{applications,bin,opt}
 [ ! -f ~/.ssh/github_id_rsa ] && ssh-keygen -f ~/.ssh/github_id_rsa
 [ ! -f ~/.ssh/gitlab_id_rsa ] && ssh-keygen -f ~/.ssh/gitlab_id_rsa
+[ ! -f ~/.ssh/remarkable_id_rsa ] && ssh-keygen -f ~/.ssh/remarkable_id_rsa
 
 if ! type "yay" > /dev/null; then
   git clone https://aur.archlinux.org/yay.git ~/tmp/yay
