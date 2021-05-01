@@ -92,6 +92,7 @@ fi
 
 # rescript {{{
 if [ ! -f ~/.local/bin/nvim ]; then
+# curl -L --create-dirs -o ~/tmp/rescript-vscode.zip https://marketplace.visualstudio.com/_apis/public/gallery/publishers/chenglou92/vsextensions/rescript-vscode/1.0.8/vspackage
   git clone https://github.com/rescript-lang/rescript-vscode ~/tmp/rescript-vscode && cd ~/tmp/rescript-vscode && yarn && yarn compile
   cd server && yarn add chokidar
   cp -r ./out ~/.local/opt/rescript-lsp
