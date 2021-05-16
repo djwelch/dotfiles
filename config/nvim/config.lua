@@ -21,7 +21,7 @@ layer.add_layer("l.rescript")
 layer.add_layer("l.c_cpp")
 -- layer.add_layer("l.rust")
 -- layer.add_layer("l.dot_net")
--- layer.add_layer("l.treesitter")
+layer.add_layer("l.treesitter")
 
 layer.finish_layer_registration()
 

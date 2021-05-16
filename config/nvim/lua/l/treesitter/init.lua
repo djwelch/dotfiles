@@ -35,7 +35,7 @@ function layer.init_config()
     ensure_installed = "all", -- one of "all", "language", or a list of languages
     highlight = {
       -- We use semantic highlight instead
-      enable = false,
+      enable = true,
       disable = {},
     },
     refactor = {

@@ -102,11 +102,12 @@ function layer.init_config()
     if server ~= nil then
       keybind.buf_bind_command(edit_mode.NORMAL, "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true })
       keybind.buf_bind_command(edit_mode.NORMAL, "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true })
-      keybind.buf_bind_command(edit_mode.NORMAL, "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true })
       keybind.buf_bind_command(edit_mode.NORMAL, "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { noremap = true })
       keybind.buf_bind_command(edit_mode.NORMAL, "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", { noremap = true })
       keybind.buf_bind_command(edit_mode.NORMAL, "]g", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", { noremap = true })
       keybind.buf_bind_command(edit_mode.NORMAL, "[g", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.NORMAL, "ga", "<cmd>Telescope lsp_code_actions<CR>", { noremap = true })
+      keybind.buf_bind_command(edit_mode.NORMAL, "gr", "<cmd>lua vim.lsp.buf.rename()<CR>", { noremap = true })
 
       user_attach_client()
     end
