@@ -50,3 +50,12 @@ let g:prettier#config#trailing_comma = 'all'
 
 autocmd TermOpen * setlocal nonumber norelativenumber
 
+let g:tex_flavor='latex'
+let g:vimtex_view_method='zathura'
+let g:vimtex_quickfix_mode=0
+set conceallevel=2
+let g:tex_conceal='abdmg'
+
+autocmd BufNewFile,BufRead *.tex,*.sty,*.cls set tw=74
+
+hi Conceal guibg=material guifg=material

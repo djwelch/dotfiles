@@ -107,6 +107,8 @@ function layer.init_config()
       keybind.buf_bind_command(edit_mode.NORMAL, "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", { noremap = true })
       keybind.buf_bind_command(edit_mode.NORMAL, "]g", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", { noremap = true })
       keybind.buf_bind_command(edit_mode.NORMAL, "[g", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", { noremap = true })
+
+      user_attach_client()
     end
   end)
 
@@ -134,6 +136,14 @@ capabilities.window.workDoneProgress = true
 capabilities.workspace = capabilities.workspace or {}
 capabilities.workspace.configuration = true
 
+local configuredDiagnosticsHandler = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = false,
+    signs = true,
+    virtual_text = false,
+    update_in_insert = false,
+  })
+
 --- Register an LSP server
 --
 -- @param server An LSP server definition (in the format expected by `lspconfig`)
@@ -147,6 +157,9 @@ function layer.register_server(config)
   server.config.capabilities = capabilities
   server.config.settings = {}
   server.config.handlers = server.config.handlers or {}
+
+  server.config.handlers["textDocument/publishDiagnostics"] = server.config.handlers["textDocument/publishDiagnostics"] or configuredDiagnosticsHandler
+
   server.config.handlers["workspace/configuration"] = function(err, method, params, client_id)
       log.log(params);
       if err then error(tostring(err)) end

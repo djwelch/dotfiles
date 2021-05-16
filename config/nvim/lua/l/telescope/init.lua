@@ -15,9 +15,10 @@ function layer.init_config()
   require("telescope").setup {}
 
   keybind.set_group_name("<leader>f", "Files")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>ff", ":Telescope find_files<CR>", { noremap = true }, "Find files")
+  keybind.bind_command(edit_mode.NORMAL, "<leader>fF", ":Telescope find_files<CR>", { noremap = true }, "Find files")
+  keybind.bind_command(edit_mode.NORMAL, "<leader>ff", ":Telescope git_files<CR>", { noremap = true }, "Find files (git)")
+  keybind.bind_command(edit_mode.NORMAL, "<leader>fi", ":Telescope live_grep<CR>", { noremap = true }, "Grep files")
   keybind.bind_command(edit_mode.NORMAL, "<leader>fb", ":Telescope buffers<CR>", { noremap = true }, "Find buffer")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>fg", ":Telescope git_files<CR>", { noremap = true }, "Find git files")
   keybind.bind_command(edit_mode.NORMAL, "<leader>ld", ":Telescope lsp_workspace_diagnostics<CR>", { noremap = true }, "Document symbol list")
 
 --  keybind.bind_command(edit_mode.NORMAL, "<leader>fr", ":History<CR>", { noremap = true }, "Recent files")

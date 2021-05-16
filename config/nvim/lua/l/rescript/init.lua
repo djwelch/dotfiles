@@ -1,15 +1,16 @@
 --- Rescript layer
 -- @module l.rescript
 local plug = require("c.plug")
+local keybind = require("c.keybind")
+local edit_mode = require("c.edit_mode")
 
 local layer = {}
 
 --- Returns plugins required for this layer
 function layer.register_plugins()
   plug.add_plugin("rescript-lang/vim-rescript")
-  -- plug.add_plugin("reasonml-editor/vim-reason-plus")
+  plug.add_plugin("vim-test/vim-test")
 end
-
 
 local configuredDiagnosticsHandler = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -25,6 +26,13 @@ end
 
 --- Configures vim and plugins for this layer
 function layer.init_config()
+  keybind.set_group_name("<leader>t", "Test")
+  keybind.bind_command(edit_mode.NORMAL, "<leader>tn", ":TestNearest<CR>", { noremap = true })
+  keybind.bind_command(edit_mode.NORMAL, "<leader>tf", ":TestFile<CR>", { noremap = true })
+  keybind.bind_command(edit_mode.NORMAL, "<leader>ts", ":TestSuite<CR>", { noremap = true })
+  keybind.bind_command(edit_mode.NORMAL, "<leader>tl", ":TestLast<CR>", { noremap = true })
+  keybind.bind_command(edit_mode.NORMAL, "<leader>tv", ":TestVisit<CR>", { noremap = true })
+
   local lsp = require("l.lsp")
   local rescriptLspPath = "/home/david/.local/opt/rescript-vscode/server/out/server.js"
   
