@@ -40,8 +40,6 @@ vim.command("normal i" + str(uuid.uuid4()) )
 EOF
 endfunction
 
-map <m-g> :call Guid() <cr>
-
 nmap <Leader>pp <Plug>(Prettier)
 let g:prettier#config#print_width = '83'
 let g:prettier#config#tab_width = '2'
@@ -50,12 +48,27 @@ let g:prettier#config#trailing_comma = 'all'
 
 autocmd TermOpen * setlocal nonumber norelativenumber
 
+let g:vimtex_indent_ignored_envs = ['document', 'verbatim', 'lstlisting', 'frame', 'example', 'theorem', 'lemma', 'begin']
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
-set conceallevel=2
+set conceallevel=1
 let g:tex_conceal='abdmg'
+"let g:latex_indent_enabled = 0
 
-autocmd BufNewFile,BufRead *.tex,*.sty,*.cls set tw=74
+" autocmd BufNewFile,BufRead *.tex,*.sty,*.cls set tw=74
 
-hi Conceal guibg=material guifg=material
+function! s:insert_include_guard()
+  let s:uuid=system('uuidgen')
+  let s:uuid=strpart(s:uuid, 0, strlen(s:uuid)-1)
+  let s:uuid=substitute(s:uuid, '[a-f]', '\u\0', 'g')
+  let s:uuid=substitute(s:uuid, '\-', '_', 'g')
+  let s:uuid=substitute(expand('%:t:r'), '[a-z]', '\U\0', 'g').'_'.s:uuid
+  call append(0, '#ifndef '.s:uuid)
+  call append(1, '#define '.s:uuid)
+  call append('$', '#endif //'.s:uuid)
+endfunction
+command! -nargs=0 InsertIncludeGuard call s:insert_include_guard()
+
+map <m-g> :InsertIncludeGuard<cr>
+

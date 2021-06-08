@@ -18,91 +18,17 @@ end
 
 --- Returns plugins required for this layer
 function layer.register_plugins()
-  plug.add_plugin("vim-airline/vim-airline") -- Sweet looking status line
-  plug.add_plugin("vim-airline/vim-airline-themes") -- Sweet looking status line
-  plug.add_plugin("kristijanhusak/vim-hybrid-material") -- Colorscheme
   plug.add_plugin("https://gitlab.com/CraftedCart/vim-indent-guides") -- Indent guides
-  -- plug.add_plugin("jaxbot/semantic-highlight.vim") -- Raiiiiiiinbow coloring!
-  plug.add_plugin('kdav5758/TrueZen.nvim')
   plug.add_plugin('lervag/vimtex')
+  -- plug.add_plugin('vim-latex/vim-latex')
+  plug.add_plugin('folke/tokyonight.nvim')
 end
 
 --- Configures vim and plugins for this layer
 function layer.init_config()
-  local true_zen = require("true-zen")
-  -- setup for TrueZen.nvim
-  true_zen.setup({
-    true_false_commands = false,
-    cursor_by_mode = false,
-    bottom = {
-      hidden_laststatus = 0,
-      hidden_ruler = false,
-      hidden_showmode = false,
-      hidden_showcmd = false,
-      hidden_cmdheight = 1,
-      shown_laststatus = 2,
-      shown_ruler = true,
-      shown_showmode = false,
-      shown_showcmd = false,
-      shown_cmdheight = 1
-    },
-    top = {
-      hidden_showtabline = 0,
-      shown_showtabline = 2
-    },
-    left = {
-      hidden_number = false,
-      hidden_relativenumber = false,
-      hidden_signcolumn = "no",
-      shown_number = true,
-      shown_relativenumber = false,
-      shown_signcolumn = "no"
-    },
-    ataraxis = {
-      ideal_writing_area_width = 80,
-      just_do_it_for_me = true,
-      left_padding = 0,
-      right_padding = 0,
-      top_padding = 0,
-      bottom_padding = 0,
-      custome_bg = "",
-      disable_bg_configuration = true,
-      disable_fillchars_configuration = false,
-      force_when_plus_one_window = false,
-      force_hide_statusline = true
-    },
-    focus = {
-      margin_of_error = 5,
-      focus_method = "experimental"
-    },
-    events = {
-      before_minimalist_mode_shown = false,
-      before_minimalist_mode_hidden = false,
-      after_minimalist_mode_shown = false,
-      after_minimalist_mode_hidden = false
-    },
-    integrations = {
-      integration_galaxyline = false,
-      integration_vim_airline = false,
-      integration_vim_powerline = false,
-      integration_tmux = false,
-      integration_express_line = false,
-      integration_gitgutter = false,
-      integration_vim_signify = false,
-      integration_limelight = false,
-      integration_tzfocus_tzataraxis = false,
-      integration_gitsigns = false
-    }
-  })
   -- Colors
   vim.o.termguicolors = true
-  autocmd.bind_colorscheme(function()
-    vim.cmd("highlight DiffAdd ctermfg=193 ctermbg=none guifg=#66CC6C guibg=none")
-    vim.cmd("highlight DiffChange ctermfg=189 ctermbg=none guifg=#B166CC guibg=none")
-    vim.cmd("highlight DiffDelete ctermfg=167 ctermbg=none guifg=#CC6666 guibg=none")
-  end)
-  vim.api.nvim_command("colorscheme hybrid_reverse")
-  vim.g.airline_theme = "hybridline"
+  vim.api.nvim_command("colorscheme tokyonight")
 
   -- Shorten updatetime from the default 4000 for quicker CursorHold updates
   -- Used for stuff like the VCS gutter updates
@@ -153,10 +79,6 @@ function layer.init_config()
   -- Enable mouse support
   vim.o.mouse = "a"
 
-  -- Use vim-airline's tabline, and enable powerline symbols
-  vim.g.airline_powerline_fonts = 1
-  vim.g["airline#extensions#tabline#enabled"] = 1
-
   -- 200ms timeout before which-key kicks in
   vim.g.timeoutlen = 200
 
@@ -175,39 +97,8 @@ function layer.init_config()
   }
   vim.g.indent_guides_exclude_noft = 1
   vim.g.indent_guides_default_mapping = 0
-  autocmd.bind("VimEnter,Colorscheme *", function()
-    vim.cmd("hi IndentGuidesEven ctermbg=0 guibg=#2E3032")
-    vim.cmd("hi IndentGuidesOdd ctermbg=0 guibg=#2E3032")
-  end)
-  
-  terminal.init_config()
 
---   local highlight_langs = {
---     "c",
---     "cpp",
---     "d",
---     "python",
---     "javascript",
---     "typescript",
---     "lua",
---     "rust",
---   }
--- 
---   autocmd.bind_buf_enter(function()
---     if vim.tbl_contains(highlight_langs, vim.bo.filetype) then
---       vim.cmd("SemanticHighlight")
---     end
---   end)
---   autocmd.bind_buf_write_post(function()
---     if vim.tbl_contains(highlight_langs, vim.bo.filetype) then
---       vim.cmd("SemanticHighlight")
---     end
---   end)
---   autocmd.bind_vim_enter(function()
---     if vim.tbl_contains(highlight_langs, vim.bo.filetype) then
---       vim.cmd("SemanticHighlight")
---     end
---   end)
+  terminal.init_config()
 end
 
 return layer
